@@ -2,9 +2,9 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  tag: string;
-  created: string; // or Date
-  updated: string; // or Date
+  tag: string; // якщо в завданні чітко не визначен тип, то я буду робити так як Я ВВАЖАЮ ЗА ПОТРІБНЕ
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateNote {

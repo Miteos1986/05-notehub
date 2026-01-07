@@ -1,7 +1,7 @@
 import css from "./Pagination.module.css";
 import ReactPaginate from "react-paginate";
 
-export interface ReactPaginateProps {
+export interface PaginationProps {
   currentPage: number;
   totalPage: number;
   onPageChange: (page: number) => void;
@@ -11,7 +11,7 @@ const Pagination = ({
   currentPage,
   totalPage,
   onPageChange,
-}: ReactPaginateProps) => {
+}: PaginationProps) => {
   return (
     <ReactPaginate
       pageCount={totalPage}

@@ -15,7 +15,7 @@ interface NoteFormProps {
   onClose: () => void;
 }
 
-const initionValues: NoteFormValues = {
+const initialValues: NoteFormValues = {
   title: "",
   content: "",
   tag: "Todo",
@@ -56,7 +56,7 @@ const NoteForm = ({ onClose }: NoteFormProps) => {
 
   return (
     <Formik
-      initialValues={initionValues}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >

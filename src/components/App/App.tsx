@@ -29,6 +29,7 @@ function App() {
 
   const debouncedSearch = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPage(1);
       setSearch(event.target.value);
     },
     1000
