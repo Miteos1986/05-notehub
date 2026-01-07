@@ -1,27 +1,38 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { fetchNotes } from "../../services/noteService";
-import css from "./App.module.css";
-import NoteList from "../NoteList/NoteList";
+import { useDebouncedCallback } from "use-debounce";
 import { useState } from "react";
+import { Toaster } from "react-hot-toast";
+import css from "./App.module.css";
+import { fetchNotes } from "../../services/noteService";
+
+import NoteList from "../NoteList/NoteList";
 import Pagination from "../Pagination/Pagination";
 import Modal from "../Modal/Modal";
 import NoteForm from "../NoteForm/NoteForm";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
+import SearchBox from "../SearchBox/SearchBox";
 
 function App() {
   const [page, setPage] = useState<number>(1);
   const [perPage] = useState<number>(12);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const { data, isLoading, isError, isSuccess, isFetching } = useQuery({
-    queryKey: ["notes", page],
-    queryFn: () => fetchNotes(page, perPage),
+    queryKey: ["notes", page, search],
+    queryFn: () => fetchNotes(page, perPage, search),
     placeholderData: keepPreviousData,
   });
 
+  const debouncedSearch = useDebouncedCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(event.target.value);
+    },
+    1000
+  );
   const handlePageChange = (page: number) => {
     setPage(page);
   };
@@ -29,16 +40,13 @@ function App() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <button onClick={openModal} className={css.button}>
-          Create note +
-        </button>
+        <SearchBox search={search} onChange={debouncedSearch} />
+        <Toaster position="top-right" />
         {isModalOpen && (
           <Modal onClose={closeModal}>
             <NoteForm onClose={closeModal} />
           </Modal>
         )}
-        {/* SearchBox */}
-        {/* Create note button */}
         {(isLoading || isFetching) && (
           <strong>
             <Loader />
@@ -56,9 +64,11 @@ function App() {
             onPageChange={handlePageChange}
           />
         )}
-
-        {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
+        <button onClick={openModal} className={css.button}>
+          Create note +
+        </button>
       </header>
+      {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
     </div>
   );
 }
