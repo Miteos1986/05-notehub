@@ -25,7 +25,7 @@ export const fetchNotes = async (
 };
 
 export const createNote = async (payload: CreateNote): Promise<Note> => {
-  const response = await axios.post("/notes", payload, {
+  const response = await axios.post<Note>("/notes", payload, {
     headers: {
       Authorization: `Bearer ${TOKEN}`,
     },

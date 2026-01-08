@@ -3,18 +3,18 @@ import ReactPaginate from "react-paginate";
 
 export interface PaginationProps {
   currentPage: number;
-  totalPage: number;
+  totalPages: number;
   onPageChange: (page: number) => void;
 }
 
 const Pagination = ({
   currentPage,
-  totalPage,
+  totalPages,
   onPageChange,
 }: PaginationProps) => {
   return (
     <ReactPaginate
-      pageCount={totalPage}
+      pageCount={totalPages}
       forcePage={currentPage - 1}
       onPageChange={({ selected }) => onPageChange(selected + 1)}
       containerClassName={css.pagination}
