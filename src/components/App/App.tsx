@@ -61,7 +61,7 @@ function App() {
         {isSuccess && data.totalPages > 1 && (
           <Pagination
             currentPage={page}
-            totalPage={data.totalPages}
+            totalPages={data.totalPages}
             onPageChange={handlePageChange}
           />
         )}
